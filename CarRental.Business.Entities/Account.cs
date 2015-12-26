@@ -6,7 +6,7 @@ using System;
 namespace CarRental.Business.Entities
 {
     [DataContract]
-    public class Account:EntityBase, IIdentifiableEntity
+    public class Account:EntityBase, IIdentifiableEntity, IAccountOwnedEntity
     {
         [DataMember]
         public int AccountId { get; set; }
@@ -38,6 +38,16 @@ namespace CarRental.Business.Entities
             {
                 AccountId = value;
             }
+        }
+
+        public int OwnerAccountId
+        {
+            get
+            {
+                return AccountId;
+            }
+
+            
         }
     }
 

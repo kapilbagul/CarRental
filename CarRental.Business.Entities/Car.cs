@@ -6,10 +6,12 @@ using Core.Common.Contracts;
 namespace CarRental.Business.Entities
 {
     [DataContract]
-    public class Car: EntityBase, IIdentifiableEntity
+    public class Car: EntityBase, IIdentifiableEntity, IAccountOwnedEntity
     {
         [DataMember]
         public int CarId { get; set; }
+        [DataMember]
+        public int AccountId { get; set; }
         [DataMember]
         public string  Description { get; set; }
         [DataMember]
@@ -31,6 +33,14 @@ namespace CarRental.Business.Entities
             set
             {
                 CarId = value;
+            }
+        }
+
+        public int OwnerAccountId
+        {
+            get
+            {
+                return AccountId;
             }
         }
     }
