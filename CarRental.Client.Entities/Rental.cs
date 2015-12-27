@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +7,117 @@ using System.Threading.Tasks;
 
 namespace CarRental.Client.Entities
 {
-    public class Rental
+    public class Rental : ObjectBase
     {
-        
-        public int RentalId { get; set; }
-        
-        public int AccountId { get; set; }
-        
-        public int CarId { get; set; }
-        
-        public DateTime DateRented { get; set; }
-        
-        public DateTime DateReturned { get; set; }
-        
-        public DateTime DateDue { get; set; }
+
+        public int _RentalId;
+
+        public int _AccountId;
+
+        public int _CarId;
+
+        public DateTime _DateRented;
+
+        public DateTime _DateReturned;
+
+        private DateTime _DateDue;
+
+        public int RentalId {
+            get
+            {
+                return _RentalId;
+            }
+            set
+            {
+                if (_RentalId != value)
+                {
+                    _RentalId = value;
+                    OnPropertyChanged(() => RentalId);
+                }
+            }
+        }
+
+        public int AccountId
+        {
+            get
+            {
+                return _AccountId;
+            }
+            set
+            {
+                if (_AccountId != value)
+                {
+                    _AccountId = value;
+                    OnPropertyChanged(() => AccountId);
+                }
+            }
+        }
+
+        public int CarId
+        {
+            get
+            {
+                return _CarId;
+            }
+            set
+            {
+                if (_CarId != value)
+                {
+                    _CarId = value;
+                    OnPropertyChanged(() => CarId);
+                }
+            }
+        }
+
+        public DateTime DateRented
+        {
+            get
+            {
+                return DateRented;
+            }
+            set                
+            {
+                if (_DateRented != value)
+                {
+                    _DateRented = value;
+                    OnPropertyChanged(() => DateRented);
+                }
+            }
+            
+        }
+
+        public DateTime DateReturned
+        {
+            get
+            {
+                return _DateReturned;
+            }
+            set
+            {
+                if (_DateReturned != value)
+                {
+                    _DateReturned = value;
+                    OnPropertyChanged(() => DateReturned);
+                }
+            }
+
+        }
+
+        public DateTime DateDue
+        {
+            get
+            {
+                return _DateDue;
+            }
+
+            set
+            {
+                if (_DateDue != value)
+                {
+                    _DateDue = value;
+                    OnPropertyChanged(() => DateDue);
+                }
+            }
+        }
     }
 }
