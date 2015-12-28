@@ -12,6 +12,7 @@ using Core.Common.Exceptions;
 using System.ServiceModel;
 
 using CarRental.Data.Contracts.Repository_Interfaces;
+using CarRental.Business.Common;
 
 namespace CarRental.Business.Managers.Managers
 {
@@ -26,9 +27,17 @@ namespace CarRental.Business.Managers.Managers
         public InventoryManager(IDataRepositoryFactory DataRepositoryFactory)
         {
             _DataRepositoryFactory = DataRepositoryFactory;
+
+        }
+
+        public InventoryManager(IBusinessEngineFactory BusinessEngineFactory)
+        {
+            _BusinessEngineFactory = BusinessEngineFactory;
         }
         [Import]
         IDataRepositoryFactory _DataRepositoryFactory;
+        [Import]
+        IBusinessEngineFactory _BusinessEngineFactory;
 
         public Car GetCar(int carid)
         {
@@ -95,6 +104,34 @@ namespace CarRental.Business.Managers.Managers
                 ICarRepository carRepository = _DataRepositoryFactory.GetDataRepository<ICarRepository>();
                 carRepository.Remove(carid);
             });
+        }
+
+        public Car[] GetAvailableCar(DateTime pickupDate, DateTime returnDate)
+        {
+            return HandleFaultHandledOperation(() =>
+            {
+                ICarRepository carRepository = _DataRepositoryFactory.GetDataRepository<ICarRepository>();
+                IRentalRepository rentalRepository = _DataRepositoryFactory.GetDataRepository<IRentalRepository>();
+                IReservationRepository reserveRepository = _DataRepositoryFactory.GetDataRepository<IReservationRepository>();
+
+                ICarRentalEngine carRentalEngine = _BusinessEngineFactory.GetBusinessEngineFactory<ICarRentalEngine>();
+
+                List<Car> availableCar = new List<Car>();
+
+                IEnumerable<Car> cars = carRepository.Get();
+                IEnumerable<Rental> rental = rentalRepository.GetCurrentlyRentedCars();
+                IEnumerable<Reservation> reservation = reserveRepository.GetReservedCars();
+
+                foreach (Car car in cars)
+                {
+                    if (carRentalEngine.GetAvailableCarsForRental(car.CarId,
+                        pickupDate,returnDate,rental,reservation))
+
+                        availableCar.Add(car);
+                }
+                return availableCar.ToArray();
+            });
+           
         }
     }
 }

@@ -66,9 +66,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Business Engine\" />
     <Folder Include="Data Contracts\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarRental.Business.Common\CarRental.Business.Common.csproj">
+      <Project>{d4f86a82-e3e9-45b6-a27e-2b4449da9b99}</Project>
+      <Name>CarRental.Business.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarRental.Business.Entities\CarRental.Business.Entities.csproj">
       <Project>{b6e7293e-3c01-41fb-9abe-4d42a9e210ce}</Project>
       <Name>CarRental.Business.Entities</Name>

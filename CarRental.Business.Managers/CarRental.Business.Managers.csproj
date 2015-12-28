@@ -67,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarRental.Business.Common\CarRental.Business.Common.csproj">
+      <Project>{d4f86a82-e3e9-45b6-a27e-2b4449da9b99}</Project>
+      <Name>CarRental.Business.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarRental.Business.Contracts\CarRental.Business.Contracts.csproj">
       <Project>{6d678414-fd0f-4d3a-9fae-cdaa8329e58c}</Project>
       <Name>CarRental.Business.Contracts</Name>

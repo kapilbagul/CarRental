@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.Composition.Hosting;
 using CarRental.Data.Data_Repositories;
 using CarRental.Data.Contracts;
-
+using CarRental.Business.Contracts;
 namespace CarRental.Business.Bootstrapper
 {
    public static class MEFLoader
@@ -16,6 +16,7 @@ namespace CarRental.Business.Bootstrapper
             
             AggregateCatalog catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(AccountRepository).Assembly));
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(CarRentalEngine).Assembly));
             //catalog.Catalogs.Add(new AssemblyCatalog(typeof(CarRepository).Assembly));
             //catalog.Catalogs.Add(new AssemblyCatalog(typeof(ReservationRepository).Assembly));
             //catalog.Catalogs.Add(new AssemblyCatalog(typeof(RentalRepository).Assembly));

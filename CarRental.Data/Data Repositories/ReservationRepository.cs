@@ -62,7 +62,16 @@ namespace CarRental.Data.Data_Repositories
             }
         }
 
-       
+        public IEnumerable<Reservation> GetReservedCars()
+        {
+            using ( CarRentalContext context = new CarRentalContext())
+            {
+                var query = from r in context.ReservationSet
+                            where r.ReturnDate == null
+                            select r;
+                return query.ToList().ToArray();
+            }
+        }
 
         protected override Reservation AddEntity(CarRentalContext entityContext, Reservation entity)
         {

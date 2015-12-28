@@ -69,6 +69,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarRental.Business.Contracts\CarRental.Business.Contracts.csproj">
+      <Project>{6d678414-fd0f-4d3a-9fae-cdaa8329e58c}</Project>
+      <Name>CarRental.Business.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarRental.Business\CarRental.Business.csproj">
+      <Project>{d7ef49f6-5d52-4c30-b757-f98dec320428}</Project>
+      <Name>CarRental.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarRental.Data\CarRental.Data.csproj">
       <Project>{ad13a0a6-6c82-4647-b5d2-ab2cfa66add7}</Project>
       <Name>CarRental.Data</Name>

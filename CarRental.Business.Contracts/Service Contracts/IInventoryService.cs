@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using CarRental.Business.Entities;
+
 using Core.Common.Exceptions;
 
 namespace CarRental.Business.Contracts
@@ -26,5 +27,8 @@ namespace CarRental.Business.Contracts
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
         void DeleteCar(int carid);
+
+        [OperationContract]
+        Car[] GetAvailableCar(DateTime pickupDate, DateTime returnDate);
     }
 }
