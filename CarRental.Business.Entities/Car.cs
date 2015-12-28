@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Core.Common;
 using Core.Common.Contracts;
 
+
 namespace CarRental.Business.Entities
 {
     [DataContract]

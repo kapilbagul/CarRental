@@ -12,6 +12,8 @@ using CarRental.Data;
 using CarRental.Data.Data_Repositories;
 using Core.Common.Contracts;
 using CarRental.Data.Contracts;
+using CarRental.Data.Contracts.Repository;
+
 
 namespace CarRental.Data.Test
 {
@@ -23,6 +25,25 @@ namespace CarRental.Data.Test
         {
             ObjectBase.Container = MEFLoader.Init();
         }
+
+        [TestMethod]
+        public void test_repository()
+        {
+            RepositoryTestClass repository = new RepositoryTestClass();
+            IEnumerable<Car> result = repository.GetCars();
+
+            Assert.IsTrue(result != null);
+        }
+
+        [TestMethod]
+        public void test_factory_repository()
+        {
+            FactoryRepositoryTestClass repository = new FactoryRepositoryTestClass();
+            IEnumerable<Car> result = repository.GetCars();
+
+            Assert.IsTrue(result != null);
+        }
+
         [TestMethod]
         public void test_repository_mock()
         {
@@ -39,7 +60,7 @@ namespace CarRental.Data.Test
 
             Assert.IsTrue(result != null);
 
-         }
+        }
 
         [TestMethod]
         public void test_factory_repository_mock()
@@ -49,12 +70,12 @@ namespace CarRental.Data.Test
                 new Car { CarId=1,Description="abc"  },
                 new Car {CarId = 2, Description="abv" }
             };
-            
+
 
             Mock<IDataRepositoryFactory> mockCarRepository = new Mock<IDataRepositoryFactory>();
             mockCarRepository.Setup(obj => obj.GetDataRepository<ICarRepository>().Get()).Returns(cars);
 
-            
+
             FactoryRepositoryTestClass repository = new FactoryRepositoryTestClass(mockCarRepository.Object);
             IEnumerable<Car> result = repository.GetCars();
 
@@ -73,21 +94,26 @@ namespace CarRental.Data.Test
         public RepositoryTestClass(ICarRepository carRepository)
         {
             _carRepository = carRepository;
+           
         }
         [Import]
         ICarRepository _carRepository;
+       
 
         public IEnumerable<Car> GetCars()
         {
             IEnumerable<Car> cars = _carRepository.Get();
             return cars;
         }
+
+       
     }
 
     public class FactoryRepositoryTestClass
     {
         public FactoryRepositoryTestClass()
         {
+            // ObjectBase.Container.SatisfyImportsOnce(this);
             ObjectBase.Container.SatisfyImportsOnce(this);
         }
 
