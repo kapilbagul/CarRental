@@ -14,5 +14,6 @@ namespace CarRental.Data.Contracts.Repository_Interfaces
         Rental GetCurrentRentalByCar(int carid);
         IEnumerable<Rental> GetCurrentlyRentedCars();
         IEnumerable<CustomerRentalInfo> GetCurrentCustomerRentalInfo();
+        IEnumerable<Rental> GetRentalHistoryByAccountId(int accountId);
     }
 }

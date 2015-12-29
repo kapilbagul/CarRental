@@ -67,6 +67,18 @@ namespace CarRental.Data.Data_Repositories
             }
         }
 
+        public IEnumerable<Rental> GetRentalHistoryByAccountId(int accountId)
+        {
+            using (CarRentalContext context = new CarRentalContext())
+            {
+                var query = from e in context.RentalSet
+                            where e.AccountId == accountId
+                            select e;
+
+                return query.ToList();
+            }
+        }
+
         protected override Rental AddEntity(CarRentalContext entityContext, Rental entity)
         {
             return entityContext.RentalSet.Add(entity);
