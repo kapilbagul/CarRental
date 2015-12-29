@@ -1,4 +1,4 @@
-﻿using CarRental.Business.Contracts.Service_Contracts;
+﻿using CarRental.Business.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

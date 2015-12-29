@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using CarRental.Business.Entities;
+using CarRental.Client.Entities;
 using Core.Common.Exceptions;
+using Core.Common.Contracts;
 
-namespace CarRental.Business.Contracts
+namespace CarRental.Client.Contracts
 {
     [ServiceContract]
-    public interface IAccountService
+    public interface IAccountService: IServiceContract
     {
         [OperationContract]
         [FaultContract(typeof(NotFoundException))]

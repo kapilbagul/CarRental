@@ -15,6 +15,8 @@ using CarRental.Data.Contracts.Repository_Interfaces;
 using CarRental.Business.Common;
 using System.Security.Permissions;
 using CarRental.Common;
+
+
 namespace CarRental.Business.Managers.Managers
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall,ConcurrencyMode =ConcurrencyMode.Multiple,
