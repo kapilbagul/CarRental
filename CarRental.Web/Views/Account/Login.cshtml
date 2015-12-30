@@ -1,0 +1,36 @@
+﻿@model CarRental.Web.Models.AccountLoginModel
+@{
+    ViewBag.Title = "Account Login";
+    ViewBag.Name = "Login";
+}
+
+@section scripts
+{
+<script src="~/Bindings/Models/AccountLoginModel.js"></script>
+<script src="~/Bindings/ViewModels/AccountLoginViewModel.js"></script>
+
+
+}
+<h2>Login</h2>
+
+<div ng-controller="AccountLoginViewModel" ng-init="returnUrl='@Model.ReturnUrl'">
+    <br /><br />
+    <p class="input-group">
+        <span class="input-group-addon" > Login Email: </span>
+        <input type="text" class="form-control" ng-model="accountModel.LoginEmail" placeholder="Login" />
+    </p>
+
+    <p class="input-group">
+        <span class="input-group-addon"> Password: </span>
+        <input type="text" class="form-control" ng-model="accountModel.Password" placeholder="Password" />
+    </p>
+
+    <p class="input-group">
+        <span class="input-group-addon"> Remember Me: </span>
+        <input type="checkbox" class="form-control" ng-model="accountModel.RememberMe"  />
+    </p>
+    <p>
+        <button type="button" class="btn btn-info" ng-click="login()">Login</button>
+    </p>
+</div>
+

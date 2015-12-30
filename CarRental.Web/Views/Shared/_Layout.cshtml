@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Car Rental System</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    
+
+
+    
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body ng-app="appMain" >
+    @Html.Partial("~/Views/Shared/_TopBar.cshtml")
+
+    <div class="container">
+        <div>
+            <a href="@Url.Action("Home","Index")"></a>
+        </div>
+        <section id="mainbody">
+            @RenderBody()
+        </section>
+
+    </div>
+
+   @Html.Partial("~/Views/Shared/_BottomBar.cshtml")
+    <script type="text/javascript">
+        window.CarRental = {};
+        (function (cr) {
+            var rootPath;
+           
+            cr.rootPath = rootPath;
+        }(window.CarRental));
+        CarRental.rootPath = '@Url.Content("~")';
+       
+    </script>
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+    <script src="~/Scripts/App.js"></script>
+
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    
+
+</body>
+</html>

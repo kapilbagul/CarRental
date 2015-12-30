@@ -69,6 +69,10 @@
       <Project>{13cb237b-1b6a-4a3a-9be6-5629238ce286}</Project>
       <Name>CarRental.Client.Proxies</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core.Common.Contracts\Core.Common.Contracts.csproj">
+      <Project>{f36730b7-2847-4f47-bb59-8288a9405c56}</Project>
+      <Name>Core.Common.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

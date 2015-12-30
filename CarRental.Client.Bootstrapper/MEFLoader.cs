@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using CarRental.Client.Proxies;
+using Core.Common.Contracts;
 
 namespace CarRental.Client.Bootstrapper
 {
@@ -21,8 +22,9 @@ namespace CarRental.Client.Bootstrapper
 
             AggregateCatalog catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(InventoryClient).Assembly));
+            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(ISecurityAdapter).Assembly));
 
-            if(catalogParts!=null)
+            if (catalogParts!=null)
                 foreach (var part in catalogParts)
                    catalog.Catalogs.Add(part);
 
