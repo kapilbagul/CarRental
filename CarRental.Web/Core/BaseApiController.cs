@@ -19,6 +19,10 @@ namespace CarRental.Web.Core
             {
                response= codeToExecute.Invoke();
             }
+            catch(SecurityException ex)
+            {
+                response = request.CreateResponse(HttpStatusCode.Unauthorized, ex.Message);
+            }
             catch (FaultException ex)
             {
                 response = request.CreateResponse(HttpStatusCode.InternalServerError,ex.Message);

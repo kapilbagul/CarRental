@@ -12,7 +12,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Not logged in</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                             <li><a href="@Url.Action("Login","Account")">Login</a>  </li>
-                            <li><a href="@Url.Action("Register","Account")">Register</a>  </li>
+                            <li><a href="@Url.Action("RegisterUser","Account")">Register</a>  </li>
                             <li class="divider"></li>
                             <li><a href="@Url.Action("ForgotPassword","Account")">Forgot Password</a>  </li>
                         </ul>
@@ -31,8 +31,9 @@
                 </li>
                 @if (Request.IsAuthenticated)
                 {
+                   
                     <li class="@if (ViewBag.Name == "CustomerAction") {<text>active</text> } ">
-                        <label > I am login </label>
+                        
 
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Actions</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

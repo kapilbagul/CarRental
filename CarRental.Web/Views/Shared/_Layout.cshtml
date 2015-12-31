@@ -46,6 +46,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        @RenderSection("footerScript", false);
+    </script>
     
 
 </body>

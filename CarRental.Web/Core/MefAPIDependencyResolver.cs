@@ -33,7 +33,7 @@ namespace CarRental.Web.Core
 
         public void Dispose()
         {
-            
+            ;
         }
     }
 }
