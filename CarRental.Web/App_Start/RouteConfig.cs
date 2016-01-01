@@ -11,7 +11,24 @@ namespace CarRental.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+           
+
+            routes.MapRoute(
+               name: "AccountRegister",
+               url: "account/register",
+               defaults: new { controller = "Account", action = "Register" }
+           );
+
+            routes.MapRoute(
+              name: "AccountRegisterRoot",
+              url: "account/register/{*catchall}",
+              defaults: new { controller = "Account", action = "Register" }
+          );
+
+            routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
                 name: "Default",

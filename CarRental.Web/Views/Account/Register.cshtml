@@ -5,19 +5,22 @@
 
 
 
-@section scripts{
+@section scripts
+{
     
 <script src="~/Bindings/Models/AccountRegisterModel.js"></script>
 <script src="~/Bindings/ViewModels/AccountRegisterViewModel.js"></script>
 }
 
-@section footerScript{
-    angular.bootstrap(document.getElementById("registration"),['accountRegister']);
+@section footerScript
+{
+    
+    angular.bootstrap(document.getElementById("registration"),['accountRegister'])
 }
 
 <h2>Register</h2>
 
-<div ng-app="accountRegister" ng-controller="accountRegisterViewModel" id="registration">
+<div ng-app="accountRegister" ng-controller="AccountRegisterViewModelctl" id="registration">
     <br />
     @Html.Partial("~/Views/Shared/_ValidationErrors.cshtml")
     <br />
