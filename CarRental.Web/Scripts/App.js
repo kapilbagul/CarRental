@@ -14,67 +14,84 @@ commonModule.factory('validator', function () {
 });
 
 (function (cr) {
-    var viewModelHelper = function ($http, $q) {
-        
+    var viewModelHelper = function ($http, $q, $window, $location) {
+
         var self = this;
+
         self.modelIsValid = true;
         self.modelErrors = [];
-        self.isLoading = false;
+
+        self.resetModelErrors = function () {
+            self.modelErrors = [];
+            self.modelIsValid = true;
+        }
 
         self.apiGet = function (uri, data, success, failure, always) {
-            self.isLoading = true;
             self.modelIsValid = true;
             $http.get(CarRental.rootPath + uri, data)
-            .then(function (result) {
-                success(result);
-                if (always != null)
-                    always();
-                self.isLoading = false;
-            }, function (result) {
-                if (failure == null) {
-                    if (result.status != 400)
-                        self.modelErrors = [result.status + ':' + result.statusText];
-                    else
-                        self.modelErrors = [result.data.Message];
-                }
-                else
-                    failure(result);
-                if (always != null)
-                    always();
-                self.isLoading = false;
-
-            });
+                .then(function (result) {
+                    success(result);
+                    if (always != null)
+                        always();
+                }, function (result) {
+                    if (failure != null) {
+                        failure(result);
+                    }
+                    else {
+                        var errorMessage = result.status + ':' + result.statusText;
+                        if (result.data != null && result.data.Message != null)
+                            errorMessage += ' - ' + result.data.Message;
+                        self.modelErrors = [errorMessage];
+                        self.modelIsValid = false;
+                    }
+                    if (always != null)
+                        always();
+                });
         }
 
         self.apiPost = function (uri, data, success, failure, always) {
-            self.isLoading = true;
             self.modelIsValid = true;
-            $http.post(CarRental.rootPath + uri, data).then(function (result) {
-                
-                success(result);
-                if (always != null)
-                    always();
-                self.isLoading = false;
-            }, function (result) {
-                alert(result.status);
-                if (failure == null) {
-                    self.modelIsValid = false;
-                    alert(result.status);
-                    if (result.status != 400)
-                        self.modelErrors = [result.status + ':' + result.statusText];
-                    else
-                        self.modelErrors = [result.data.Message];
-                }
-                else
-                    failure(result);
-                if (always != null)
-                    always();
-                self.isLoading = false;
-
-            });
+            $http.post(CarRental.rootPath + uri, data)
+                .then(function (result) {
+                    success(result);
+                    if (always != null)
+                        always();
+                }, function (result) {
+                    if (failure != null) {
+                        failure(result);
+                    }
+                    else {
+                        var errorMessage;
+                        
+                        if (result.data != null )
+                            errorMessage = result.data;
+                                              
+                        self.modelErrors = [errorMessage];
+                        self.modelIsValid = false;
+                    }
+                    if (always != null)
+                        always();
+                });
         }
+
+        self.goBack = function () {
+            $window.history.back();
+        }
+
+        self.navigateTo = function (path) {
+            $location.path(CarRental.rootPath + path);
+        }
+
+        self.refreshPage = function (path) {
+            $window.location.href = CarRental.rootPath + path;
+        }
+
+        self.clone = function (obj) {
+            return JSON.parse(JSON.stringify(obj))
+        }
+
         return this;
-    }
+    };
     cr.viewModelHelper = viewModelHelper;
    
     
@@ -91,30 +108,27 @@ commonModule.factory('validator', function () {
 
 (function (cr) {
     var validator = function () {
-       
+
         var self = this;
-        
+
         self.PropertyRule = function (propertyName, rules) {
-           
             var self = this;
             self.PropertyName = propertyName;
             self.Rules = rules;
-            
         };
 
         self.ValidateModel = function (model, allPropertyRules) {
-           
             var errors = [];
             var props = Object.keys(model);
             for (var i = 0; i < props.length; i++) {
                 var prop = props[i];
-                for (j = 0; j < allPropertyRules.length;j++){
+                for (var j = 0; j < allPropertyRules.length; j++) {
                     var propertyRule = allPropertyRules[j];
                     if (prop == propertyRule.PropertyName) {
                         var propertyRules = propertyRule.Rules;
 
                         var propertyRuleProps = Object.keys(propertyRules);
-                        for (k = 0; k < propertyRuleProps.length;k++){
+                        for (var k = 0; k < propertyRuleProps.length; k++) {
                             var propertyRuleProp = propertyRuleProps[k];
                             if (propertyRuleProp != 'custom') {
                                 var rule = rules[propertyRuleProp];
@@ -123,7 +137,7 @@ commonModule.factory('validator', function () {
                                     params = propertyRules[propertyRuleProp].params;
                                 var validationResult = rule.validator(model[prop], params);
                                 if (!validationResult) {
-                                    errors.push(getMessage(prop, propertyRuleProp, rule.message));
+                                    errors.push(getMessage(prop, propertyRules[propertyRuleProp], rule.message));
                                 }
                             }
                             else {
@@ -134,19 +148,19 @@ commonModule.factory('validator', function () {
                                 }
                                 var result = validator(model[prop], value());
                                 if (result != true) {
-                                    errors.push(getMessage(prop,propertyRules.custom,'Invalid value'))
+                                    errors.push(getMessage(prop, propertyRules.custom, 'Invalid value.'));
                                 }
                             }
                         }
-
                     }
                 }
-
             }
+
             model['errors'] = errors;
             model['isValid'] = (errors.length == 0);
         }
-        var getMessage = function (prop,rule,defaultMessage) {
+
+        var getMessage = function (prop, rule, defaultMessage) {
             var message = '';
             if (rule.hasOwnProperty('message'))
                 message = rule.message;
@@ -158,39 +172,30 @@ commonModule.factory('validator', function () {
         var rules = [];
 
         var setupRules = function () {
+
             rules['required'] = {
-                validator: function (value,params) {
+                validator: function (value, params) {
                     return !(value.trim() == '');
                 },
-                message:'value is required.'
+                message: 'Value is required.'
             };
-
             rules['minLength'] = {
                 validator: function (value, params) {
                     return !(value.trim().length < params);
                 },
-                message: 'value does not meet minimum length.'
+                message: 'Value does not meet minimum length.'
             };
-
             rules['pattern'] = {
                 validator: function (value, params) {
                     var regExp = new RegExp(params);
-                    return !(regExp.exec(value.trim())==null)
+                    return !(regExp.exec(value.trim()) == null);
                 },
-                message: 'value must match regular expression'
+                message: 'Value must match regular expression.'
             };
-
-            rules['email'] = {
-                validator: function (value, params) {
-                    var regExp = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$');
-                    return !(regExp.exec(value.trim()) == null)
-                },
-                message: 'value must be an email'
-            };
-
         }
 
         setupRules();
+
         return this;
     }
     cr.validator = validator;

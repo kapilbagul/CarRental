@@ -14,17 +14,20 @@
 
 @section footerScript
 {
-    
+    $("#registration").data("$injector","");
     angular.bootstrap(document.getElementById("registration"),['accountRegister'])
 }
 
 <h2>Register</h2>
 
-<div ng-app="accountRegister" ng-controller="AccountRegisterViewModelctl" id="registration">
-    <br />
-    @Html.Partial("~/Views/Shared/_ValidationErrors.cshtml")
-    <br />
-    
-    <div ng-view></div>
+<div ng-non-bindable >
+    <div  ng-controller="AccountRegisterViewModel"  id="registration">
+        <br />
+        <div>
+            @Html.Partial("~/Views/Shared/_ValidationErrors.cshtml")
+            <br />
+        </div>
+        <div ng-view></div>
 
+    </div>
 </div>

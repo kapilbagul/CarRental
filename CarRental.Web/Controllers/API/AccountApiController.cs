@@ -67,7 +67,7 @@ namespace CarRental.Web.Controllers.API
                 }
                 else
                 {
-                    response = request.CreateResponse<string[]>(HttpStatusCode.BadRequest, errors.ToArray());
+                     response = request.CreateResponse<string[]>(HttpStatusCode.BadRequest, errors.ToArray());
                 }
                 
                 return response;
@@ -83,7 +83,7 @@ namespace CarRental.Web.Controllers.API
             return GetResponseMessage(request, () =>
             {
                 HttpResponseMessage response = null;
-                if (_securityAdapter.UserExists(accountRegisterModel.LoginEmail))
+                if (!_securityAdapter.UserExists(accountRegisterModel.LoginEmail))
                 {
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
