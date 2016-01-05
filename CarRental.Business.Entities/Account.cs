@@ -21,7 +21,9 @@ namespace CarRental.Business.Entities
         [DataMember]
         public string City { get; set; }
         [DataMember]
-        public int  ZipCode { get; set; }
+        public string State { get; set; }
+        [DataMember]
+        public string  ZipCode { get; set; }
         [DataMember]
         public string CreditCard { get; set; }
         [DataMember]

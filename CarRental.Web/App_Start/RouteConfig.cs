@@ -28,6 +28,18 @@ namespace CarRental.Web
               defaults: new { controller = "Account", action = "Register" }
           );
 
+            routes.MapRoute(
+              name: "CarReserve",
+              url: "Customer/ResrveCar",
+              defaults: new { controller = "Customer", action = "ReserveCar" }
+          );
+
+            routes.MapRoute(
+              name: "CarReserveRoot",
+              url: "Customer/ResrveCar/{*catchall}",
+              defaults: new { controller = "Customer", action = "ReserveCar" }
+          );
+
             routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(

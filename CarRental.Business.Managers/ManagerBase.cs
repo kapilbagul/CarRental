@@ -20,11 +20,12 @@ namespace CarRental.Business.Managers
     {
         public ManagerBase()
         {
+           
             OperationContext context = OperationContext.Current;
             if (context != null)
             {
-                _LoginName = context.IncomingMessageHeaders.GetHeader<string>("String", "System");
-                if (_LoginName.IndexOf(@"\") > 0) _LoginName = string.Empty;
+                //_LoginName = context.IncomingMessageHeaders.GetHeader<string>("String", "System");
+                //if (_LoginName.IndexOf(@"\") > 0) _LoginName = string.Empty;
 
             }
             if(ObjectBase.Container!=null)
@@ -34,6 +35,8 @@ namespace CarRental.Business.Managers
             {
                 _AuthorizationAccount = LoadAuthorizationAccount(_LoginName);
             }
+
+           
         }
 
         protected virtual Account LoadAuthorizationAccount(string loginName)

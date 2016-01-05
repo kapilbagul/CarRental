@@ -32,25 +32,27 @@ namespace CarRental.Business
         }
        
         IDataRepositoryFactory _dataRepositoryFactory;
-        public bool GetAvailableCarsForRental(int carid, DateTime pickupDate, DateTime returnDate, IEnumerable<Rental> rentals, IEnumerable<Entities.Reservation> reservations)
+        public bool GetAvailableCarsForRental(int carid, DateTime pickupDate, DateTime returnDate, IEnumerable<Rental> rentedCars, IEnumerable<Entities.Reservation> reservedCars)
         {
-            bool IsAvailable = true;
+            
+            bool available = true;
 
-            Entities.Reservation reservation = reservations.Where(item => item.CarId == carid).FirstOrDefault();
-            if (reservations != null && (pickupDate >= reservation.RentalDate && returnDate <= reservation.ReturnDate) ||
-                (returnDate >= reservation.ReturnDate && returnDate <= reservation.ReturnDate))
+            Reservation reservation = reservedCars.Where(item => item.CarId == carid).FirstOrDefault();
+            if (reservation != null && (
+                (pickupDate >= reservation.RentalDate && pickupDate <= reservation.ReturnDate) ||
+                (returnDate >= reservation.RentalDate && returnDate <= reservation.ReturnDate)))
             {
-                IsAvailable = false;
-
+                available = false;
             }
 
-            if (IsAvailable)
+            if (available)
             {
-                Entities.Rental rental = rentals.Where(item => item.CarId == carid).FirstOrDefault();
-                if (rental != null && pickupDate < rental.DateDue)
-                    IsAvailable = false;
+                Rental rental = rentedCars.Where(item => item.CarId == carid).FirstOrDefault();
+                if (rental != null && (pickupDate <= rental.DateDue))
+                    available = false;
             }
-            return IsAvailable;
+
+            return available;
         }
 
         public Rental RentCarToCustomer(string loginEmail, int accountId, int carid, DateTime rentalDate, DateTime returnDate)

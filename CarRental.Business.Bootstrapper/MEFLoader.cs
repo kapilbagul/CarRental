@@ -15,13 +15,9 @@ namespace CarRental.Business.Bootstrapper
         {
             
             AggregateCatalog catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new AssemblyCatalog(typeof(AccountRepository).Assembly));
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(CarRentalEngine).Assembly));
-            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(CarRepository).Assembly));
-            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(ReservationRepository).Assembly));
-            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(RentalRepository).Assembly));
-            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(DataRepositoryFactory).Assembly));
-            CompositionContainer container = new CompositionContainer(catalog);
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(AccountRepository).Assembly));
+             CompositionContainer container = new CompositionContainer(catalog);
             return container;
         }
     }

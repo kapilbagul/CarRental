@@ -39,5 +39,10 @@ namespace CarRental.Client.Proxies
         {
             return Channel.RentCarToCustomer(loginEmail, carid, rentalDate, dueDate);
         }
+
+        public Reservation MakeReservation(string loginEmail, int carId, DateTime rentalDate, DateTime returnDate)
+        {
+            return Channel.MakeReservation(loginEmail, carId, rentalDate, returnDate);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace CarRental.Client.Entities
 
         private string _city;
 
-        private int _zipCode;
+        private string _zipCode;
 
         private string _creditCard;
 
@@ -131,7 +131,7 @@ namespace CarRental.Client.Entities
             }
         }
 
-        public int ZipCode
+        public string ZipCode
         {
             get
             {

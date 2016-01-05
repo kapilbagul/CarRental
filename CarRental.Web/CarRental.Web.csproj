@@ -192,7 +192,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\AccountApiController.cs" />
+    <Compile Include="Controllers\API\ReservationApiController.cs" />
     <Compile Include="Controllers\MVC\AccountController.cs" />
+    <Compile Include="Controllers\MVC\CustomerController.cs" />
     <Compile Include="Controllers\MVC\HomeController.cs" />
     <Compile Include="Core\BaseApiController.cs" />
     <Compile Include="Core\ISecurityAdapter.cs" />
@@ -206,6 +208,7 @@
     <Compile Include="Models\AccountLoginModel.cs" />
     <Compile Include="Models\AccountRegisterModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CarReserveModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -215,10 +218,14 @@
   <ItemGroup>
     <Content Include="Bindings\Models\AccountLoginModel.js" />
     <Content Include="Bindings\Models\AccountRegisterModel.js" />
+    <Content Include="Bindings\Models\ReserveCarModel.js" />
     <Content Include="Bindings\ViewModels\AccountLoginViewModel.js" />
     <Content Include="Bindings\ViewModels\AccountRegisterViewModel.js" />
+    <Content Include="Bindings\ViewModels\ReserveCarViewModel.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Layout.css" />
+    <Content Include="Content\loading-placeholder.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1017,13 +1024,19 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Templates\CarList.html" />
     <Content Include="Templates\RegisterConfirm.html" />
     <Content Include="Templates\RegisterStep1.html" />
     <Content Include="Templates\RegisterStep2.html" />
     <Content Include="Templates\RegisterStep3.html" />
+    <Content Include="Templates\ReserveCar.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1039,16 +1052,17 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Shared\_TopBar.cshtml" />
     <Content Include="Views\Shared\_BottomBar.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_ValidationErrors.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Customer\ReserveCar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\angular-ui\" />
     <Folder Include="Views\AccountApi\" />
   </ItemGroup>
   <ItemGroup>
@@ -1063,6 +1077,14 @@
     <ProjectReference Include="..\CarRental.Client.Bootstrapper\CarRental.Client.Bootstrapper.csproj">
       <Project>{d8522b46-5ffd-42da-80e1-3b7ba8586fc7}</Project>
       <Name>CarRental.Client.Bootstrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarRental.Client.Contracts\CarRental.Client.Contracts.csproj">
+      <Project>{7fda51aa-1c83-4a0b-a3e1-410d474cb385}</Project>
+      <Name>CarRental.Client.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarRental.Client.Entities\CarRental.Client.Entities.csproj">
+      <Project>{c2a3c8b5-e06b-4b99-a47e-9ac8619d27d1}</Project>
+      <Name>CarRental.Client.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core.Common.Contracts\Core.Common.Contracts.csproj">
       <Project>{f36730b7-2847-4f47-bb59-8288a9405c56}</Project>

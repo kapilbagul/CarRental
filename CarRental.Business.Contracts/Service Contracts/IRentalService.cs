@@ -35,6 +35,11 @@ namespace CarRental.Business.Contracts
         [FaultContract(typeof(NotFoundException))]
         [TransactionFlow(TransactionFlowOption.Allowed)]
         Rental RentCarToCustomer(string loginEmail,int carid, DateTime rentalDate, DateTime dueDate);
-       
+
+        [OperationContract]
+        [FaultContract(typeof(NotFoundException))]
+        [TransactionFlow(TransactionFlowOption.Allowed)]
+        Reservation MakeReservation(string loginEmail, int carId, DateTime rentalDate, DateTime returnDate);
+
     }
 }

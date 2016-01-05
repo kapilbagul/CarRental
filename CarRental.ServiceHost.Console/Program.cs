@@ -8,6 +8,9 @@ using CarRental.Business.Managers;
 using CarRental.Business.Managers.Managers;
 using CarRental.Business.Bootstrapper;
 using CarRental.Business.Entities;
+using Core.Common;
+using System.Security.Principal;
+using System.Threading;
 
 namespace CarRental.ServiceHost
 {
@@ -15,6 +18,13 @@ namespace CarRental.ServiceHost
     {
         static void Main(string[] args)
         {
+            GenericPrincipal principal = new GenericPrincipal(
+                new GenericIdentity("kapilb"), new string[] { "Administrators", "CarRentalAdmin" });
+            Thread.CurrentPrincipal = principal;
+
+            ObjectBase.Container = MEFLoader.Init();
+
+
             Console.WriteLine("Starting up the service...");
             Console.WriteLine("");
 

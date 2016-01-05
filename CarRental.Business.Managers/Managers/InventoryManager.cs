@@ -116,10 +116,11 @@ namespace CarRental.Business.Managers.Managers
             });
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = Security.CarRentalAdmin)]
-        [PrincipalPermission(SecurityAction.Demand, Name = Security.CarRentalUser)]
+        //[PrincipalPermission(SecurityAction.Demand, Role = Security.CarRentalAdmin)]
+        //[PrincipalPermission(SecurityAction.Demand, Name = Security.CarRentalUser)]
         public Car[] GetAvailableCar(DateTime pickupDate, DateTime returnDate)
         {
+           
             return HandleFaultHandledOperation(() =>
             {
                 ICarRepository carRepository = _DataRepositoryFactory.GetDataRepository<ICarRepository>();
@@ -132,7 +133,7 @@ namespace CarRental.Business.Managers.Managers
 
                 IEnumerable<Car> cars = carRepository.Get();
                 IEnumerable<Rental> rental = rentalRepository.GetCurrentlyRentedCars();
-                IEnumerable<Reservation> reservation = reserveRepository.GetReservedCars();
+                IEnumerable<Reservation> reservation = reserveRepository.Get();
 
                 foreach (Car car in cars)
                 {

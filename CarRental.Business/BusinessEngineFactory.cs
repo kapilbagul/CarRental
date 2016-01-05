@@ -9,6 +9,8 @@ using Core.Common;
 
 namespace CarRental.Business
 {
+    [Export(typeof(IBusinessEngineFactory))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class BusinessEngineFactory : IBusinessEngineFactory
     {
         public T GetBusinessEngineFactory<T>() where T : IBusinessEngine

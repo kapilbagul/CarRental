@@ -150,5 +150,38 @@ namespace CarRental.Business.Managers
                 return rental;
             });
         }
+
+        [OperationBehavior(TransactionScopeRequired = true)]
+        //[PrincipalPermission(SecurityAction.Demand, Role = Security.CarRentalAdmin)]
+        //[PrincipalPermission(SecurityAction.Demand, Name = Security.CarRentalUser)]
+        public Reservation MakeReservation(string loginEmail, int carId, DateTime rentalDate, DateTime returnDate)
+        {
+            return HandleFaultHandledOperation(() =>
+            {
+                IAccountRepository accountRepository = _DataRepositoryFactory.GetDataRepository<IAccountRepository>();
+                IReservationRepository reservationRepository = _DataRepositoryFactory.GetDataRepository<IReservationRepository>();
+
+                Account account = accountRepository.GetByLogin(loginEmail);
+                if (account == null)
+                {
+                    NotFoundException ex = new NotFoundException(string.Format("No account found for login '{0}'.", loginEmail));
+                    throw new FaultException<NotFoundException>(ex, ex.Message);
+                }
+
+                ValidateAuthorization(account);
+
+                Reservation reservation = new Reservation()
+                {
+                    AccountId = account.AccountId,
+                    CarId = carId,
+                    RentalDate = rentalDate,
+                    ReturnDate = returnDate
+                };
+
+                Reservation savedEntity = reservationRepository.Add(reservation);
+
+                return savedEntity;
+            });
+        }
     }
 }

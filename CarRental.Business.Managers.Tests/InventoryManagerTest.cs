@@ -7,6 +7,12 @@ using Core.Common.Contracts;
 using CarRental.Business.Managers.Managers;
 using System.Security.Principal;
 using System.Threading;
+using Core.Common;
+using System.ComponentModel.Composition;
+using CarRental.Business.Bootstrapper;
+using System.Collections.Generic;
+using CarRental.Business.Common;
+using CarRental.Data.Contracts;
 
 namespace CarRental.Business.Managers.Tests
 {
@@ -18,6 +24,8 @@ namespace CarRental.Business.Managers.Tests
         {
             GenericPrincipal genericPrinciple = new GenericPrincipal(new GenericIdentity("kapilb"), new string[] { "CarRentalAdmin" });
             Thread.CurrentPrincipal = genericPrinciple;
+
+            ObjectBase.Container = MEFLoader.Init();
         }
         [TestMethod]
         public void UpdateCar_add_new_car()
@@ -35,6 +43,53 @@ namespace CarRental.Business.Managers.Tests
             Car car =  inventoryManager.UpdateCar(newCar);
             Assert.IsTrue(car == AddedCar);
 
+        }
+        [TestMethod]
+        public void GetAvailableCars()
+        {
+           
+           // FactoryRepositoryTestClass repository = new FactoryRepositoryTestClass();
+            IDataRepositoryFactory fact = new DataRepositoryFactory();
+            ICarRepository car =  fact.GetDataRepository<ICarRepository>();
+
+            IBusinessEngineFactory engine = new BusinessEngineFactory();
+           ICarRentalEngine carEngine =  engine.GetBusinessEngineFactory<ICarRentalEngine>();
+            InventoryManager mgr = new InventoryManager(engine);
+        Car[] cars=    mgr.GetAvailableCar(new DateTime(2016, 01, 04), new DateTime(2016, 01, 07));
+
+            //IEnumerable<Car> result = repository.GetAvailableCars();
+        }
+    }
+
+    public class FactoryRepositoryTestClass
+    {
+        public FactoryRepositoryTestClass()
+        {
+            // ObjectBase.Container.SatisfyImportsOnce(this);
+            ObjectBase.Container.SatisfyImportsOnce(this);
+        }
+
+        public FactoryRepositoryTestClass(IDataRepositoryFactory dataRepositoryFactory)
+        {
+            _dataRepositoryFactory = dataRepositoryFactory;
+        }
+
+        public FactoryRepositoryTestClass(IBusinessEngineFactory businessEngineFactory)
+        {
+            _businessEngineFactory = businessEngineFactory;
+        }
+
+        [Import]
+        IDataRepositoryFactory _dataRepositoryFactory;
+        [Import]
+        IBusinessEngineFactory _businessEngineFactory;
+
+        public IEnumerable<Car> GetAvailableCars()
+        {
+
+            
+            InventoryManager manager = new InventoryManager();
+            return manager.GetAvailableCar(new DateTime(2016,01,04),new DateTime(2016, 01, 07));
         }
     }
 }

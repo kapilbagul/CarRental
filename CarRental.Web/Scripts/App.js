@@ -1,6 +1,6 @@
 ﻿/// <reference path="angular.min.js" />
 
-var commonModule = angular.module('common', ['ngRoute']);
+var commonModule = angular.module('common', ['ngRoute','ui.bootstrap']);
 var appMainModule = angular.module('appMain', ['common']);
 
 commonModule.factory('viewModelHelper', function ($http, $q) {
